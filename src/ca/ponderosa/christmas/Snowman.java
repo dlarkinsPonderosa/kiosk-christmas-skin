@@ -39,6 +39,7 @@ final class Snowman {
     private final RectF oval = new RectF();
 
     private float lean, ponder, open, hop, swirl;
+    private final Mouth mouthRange = new Mouth();
     private long last;
     private float headCx = Float.NaN, headCy, headR;
 
@@ -76,8 +77,8 @@ final class Snowman {
         boolean answering = "answering".equals(phase);
         lean += ((listening ? 1 : 0) - lean) * 0.06f;
         ponder += ((thinking ? 1 : 0) - ponder) * 0.08f;
-        // Straight from the level, which is already eased once; easing it again lagged the words.
-        open = answering ? Math.min(1, level * 1.5f) : 0;
+        // Not eased again, and scaled to the answer's own range so it closes between words.
+        open = mouthRange.open(level, answering, now);
         swirl += ((thinking ? 1 : 0) - swirl) * 0.07f;
 
         float r = size * (small ? 0.3f : 0.325f);

@@ -69,6 +69,7 @@ final class Lights {
     private float ponder;
     /** 0 to 1: how far the mouth is open. */
     private float open;
+    private final Mouth mouthRange = new Mouth();
 
     // The three globes: two pupils and the nose.
     private final float[] gx = new float[3], gy = new float[3], gr = new float[3], gk = new float[3];
@@ -101,9 +102,10 @@ final class Lights {
         boolean answering = "answering".equals(phase);
         lean += ((listening ? 1 : 0) - lean) * 0.06f;
         ponder += ((thinking ? 1 : 0) - ponder) * 0.08f;
-        // Straight from the level, as on the pumpkin: it is already eased once, and easing it
-        // again left the mouth a beat behind the words.
-        open = answering ? Math.min(1, level * 1.5f) : listening ? 0.1f : 0;
+        // Not eased again: the level already is, and easing it twice left the mouth a beat
+        // behind the words. Mouth scales it to the answer's own range so it closes between words.
+        float talk = mouthRange.open(level, answering, now);
+        open = answering ? talk : listening ? 0.1f : 0;
 
         // A blink every few seconds: the eye rings squash flat for a moment.
         float bt = (now % 4700) / 1000f;
@@ -171,7 +173,7 @@ final class Lights {
             float k;
             if (thinking) k = 1.25f * (0.15f + 0.85f * (float) Math.pow(0.5 + 0.5 * Math.cos(now / 1000.0 * 9.9 - i * 0.55), 6));
             else if (listening) k = 0.45f + 0.15f * tw + 0.9f * level * (0.55f + 0.45f * (float) Math.sin(i * 1.7 + now / 90.0));
-            else if (answering) k = 0.78f + 0.15f * tw + (mouth ? 1.1f * level : 0);
+            else if (answering) k = 0.78f + 0.15f * tw + (mouth ? 0.75f * talk : 0);
             else k = 0.7f + 0.25f * tw;
             if (!easedReady) eased[i] = k;
             // Listening flashes follow the voice quicker, so they snap on. The talking mouth is
