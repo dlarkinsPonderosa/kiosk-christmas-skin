@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 1,
+  "apiVersion": 1,
+  "id": "christmas-lights-snowman-voice-skin",
+  "name": "Christmas Lights and Snowman",
+  "version": "1.0.0",
+  "minAndroidSdk": 24,
+  "entryClass": "ca.ponderosa.christmas.ChristmasPlugin",
+  "description": "A Christmas voice skin with two faces. Christmas lights: a face strung from old-fashioned bulbs that twinkle, flash with your voice, chase while thinking and light up as it talks. Snowman: a coal-and-carrot snowman in a top hat who leans in to listen, swirls the snow while he thinks and talks with his coal smile.",
+  "author": "Ponderosa",
+  "license": "Apache-2.0",
+  "capabilities": ["overlay", "host.read", "voice.skin", "voice.text"],
+  "icon": "icon.png",
+  "voiceSkinThumbnail": "voice-skin.png",
+  "settings": [
+    {
+      "key": "face",
+      "type": "select",
+      "title": "Face",
+      "options": ["Christmas lights", "Snowman"],
+      "default": "Christmas lights",
+      "group": "Appearance",
+      "description": "Christmas lights is a face strung from bulbs on black. Snowman is a snowman in a top hat and scarf."
+    },
+    {
+      "key": "bulbs",
+      "type": "select",
+      "title": "Bulbs",
+      "options": ["Multicolour", "Warm white"],
+      "default": "Multicolour",
+      "group": "Christmas lights",
+      "description": "The colour of the bulbs. The pupils, nose and teeth keep their own colours."
+    },
+    {
+      "key": "glow",
+      "type": "boolean",
+      "title": "Bulb glow",
+      "default": true,
+      "group": "Christmas lights",
+      "description": "The soft light around each bulb. Turn off for a plainer look."
+    },
+    {
+      "key": "snowmanBackground",
+      "type": "select",
+      "title": "Background",
+      "options": ["Snowy night", "Black"],
+      "default": "Snowy night",
+      "group": "Snowman",
+      "description": "Snowy night is a dark blue sky with moonlight behind him. Black is plain black. Snow falls in both."
+    },
+    {
+      "key": "frameRate",
+      "type": "select",
+      "title": "Frame rate",
+      "options": ["Auto", "Full", "30 frames a second"],
+      "default": "Auto",
+      "group": "Appearance",
+      "description": "Auto draws at the screen's full rate and drops to 30 frames a second on devices too slow to keep up. Pick 30 frames a second for slow devices such as the Echo Show 5."
+    }
+  ],
+  "commands": []
+}
