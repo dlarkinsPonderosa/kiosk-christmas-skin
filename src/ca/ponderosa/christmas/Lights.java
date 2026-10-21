@@ -101,7 +101,9 @@ final class Lights {
         boolean answering = "answering".equals(phase);
         lean += ((listening ? 1 : 0) - lean) * 0.06f;
         ponder += ((thinking ? 1 : 0) - ponder) * 0.08f;
-        open += ((answering ? Math.min(1, level * 1.5f) : listening ? 0.1f : 0) - open) * 0.4f;
+        // Straight from the level, as on the pumpkin: it is already eased once, and easing it
+        // again left the mouth a beat behind the words.
+        open = answering ? Math.min(1, level * 1.5f) : listening ? 0.1f : 0;
 
         // A blink every few seconds: the eye rings squash flat for a moment.
         float bt = (now % 4700) / 1000f;
@@ -172,8 +174,9 @@ final class Lights {
             else if (answering) k = 0.78f + 0.15f * tw + (mouth ? 1.1f * level : 0);
             else k = 0.7f + 0.25f * tw;
             if (!easedReady) eased[i] = k;
-            // Listening and the talking mouth follow the voice quicker, so the flashes snap on.
-            eased[i] += (k - eased[i]) * (listening || (answering && mouth) ? 0.55f : 0.3f);
+            // Listening flashes follow the voice quicker, so they snap on. The talking mouth is
+            // not eased at all, so its pulses land with the words.
+            eased[i] += (k - eased[i]) * (answering && mouth ? 1 : listening ? 0.55f : 0.3f);
             bk[i] = Math.max(0, Math.min(answering ? 1.45f : 1.25f, eased[i]));
         }
         easedReady = true;

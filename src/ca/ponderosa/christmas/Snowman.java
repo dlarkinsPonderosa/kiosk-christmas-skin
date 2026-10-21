@@ -76,7 +76,8 @@ final class Snowman {
         boolean answering = "answering".equals(phase);
         lean += ((listening ? 1 : 0) - lean) * 0.06f;
         ponder += ((thinking ? 1 : 0) - ponder) * 0.08f;
-        open += ((answering ? Math.min(1, level * 1.5f) : 0) - open) * 0.4f;
+        // Straight from the level, which is already eased once; easing it again lagged the words.
+        open = answering ? Math.min(1, level * 1.5f) : 0;
         swirl += ((thinking ? 1 : 0) - swirl) * 0.07f;
 
         float r = size * (small ? 0.3f : 0.325f);
